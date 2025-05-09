@@ -2,6 +2,8 @@ import { useState } from "react";
 import "./App.css";
 import Filter from "./components/Filter";
 import MovieList from "./components/MovieList";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import MovieTrailer from "./components/MovieTrailer";
 
 function App() {
   const [movies, setMovies] = useState([
@@ -13,6 +15,8 @@ function App() {
       posterURL:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOcWkpWG_NRrU2M8-WB8EbEcJk7smhdrY1eO0ttKXm0bo2ooOEWxk3zBSbsFrSgSJh2OEKOQ",
       rating: 4.9,
+      trailerLink:
+        "https://www.youtube.com/embed/HhesaQXLuRY?si=cRpEdt9oVGXaoFJS",
     },
     {
       id: 2,
@@ -22,6 +26,8 @@ function App() {
       posterURL:
         "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTlZudogDC96zcQ8h1btvghFoM6Y7qQd94UNUyceBqXslnarv260_Ij7QEvSp_FNmldAci5",
       rating: 4.2,
+      trailerLink:
+        "https://www.youtube.com/embed/HN4oydykJFc?si=onIuVn4j7HqWGvG3",
     },
     {
       id: 3,
@@ -31,6 +37,8 @@ function App() {
       posterURL:
         "https://m.media-amazon.com/images/M/MV5BM2JkMzM2ZmYtNWU4MS00MjZhLWFhZWUtYWFjYTJkN2RhZDliXkEyXkFqcGc@._V1_.jpg",
       rating: 4.5,
+      trailerLink:
+        "https://www.youtube.com/embed/JtqIas3bYhg?si=nQ_7T5CTpTzPgJU_",
     },
     {
       id: 4,
@@ -40,6 +48,8 @@ function App() {
       posterURL:
         "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ0Ojyz9PK37yabHiM9h6GTv6AfcTxdISx50VOydkf4dQAFxTKCvirwXs9cLzmZqDEuzq_fRQ",
       rating: 4.9,
+      trailerLink:
+        "https://www.youtube.com/embed/wTgYeETwgKQ?si=-onEIheaITp-rFtN",
     },
     {
       id: 5,
@@ -49,6 +59,8 @@ function App() {
       posterURL:
         "https://upload.wikimedia.org/wikipedia/en/c/c6/Brawl_in_Cell_Block_99_poster.jpg",
       rating: 4.2,
+      trailerLink:
+        "https://www.youtube.com/embed/5hfAExhHTMM?si=FBO-p5GmKeCoWIeQ",
     },
     {
       id: 6,
@@ -58,6 +70,8 @@ function App() {
       posterURL:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCWXVvfvZR3oe7PCMM0exwV0dObOTKvLfSM-bjvKpQ1VegKXuCtq6aBrxqbIgUNxMbfavy",
       rating: 4.3,
+      trailerLink:
+        "https://www.youtube.com/embed/vKQi3bBA1y8?si=0BjTQkicEf2vOu2r",
     },
     {
       id: 7,
@@ -67,6 +81,8 @@ function App() {
       posterURL:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUgffoihYPEcEZH4D24OA-1Hnwz-SRN4DOmcABM6nro6l2D_yLYjNNFy_pOpOC9ABjXY2_",
       rating: 4.4,
+      trailerLink:
+        "https://www.youtube.com/embed/KPLWWIOCOOQ?si=g4msfi1lnSI8RTqL",
     },
   ]);
   const [filterTitle, setFilterTitle] = useState("");
@@ -89,22 +105,30 @@ function App() {
       movie.rating >= filterRating
   );
   return (
-    <div className="p-2">
-      <h1 className="flex justify-center text-3xl font-bold mb-2">Movie App</h1>
-      <button
-        className="flex justify-center max-w-7xl m-auto bg-blue-500 text-white py-2 px-4 rounded"
-        onClick={handleAddMovie}
-      >
-        Add Movie
-      </button>
-      <Filter
-        filterTitle={filterTitle}
-        setFilterTitle={setFilterTitle}
-        filterRating={filterRating}
-        setFilterRating={setFilterRating}
-      />
-      <MovieList movies={filteredMovies} />
-    </div>
+    <Router>
+      <div className="p-2">
+        <h1 className="flex justify-center text-3xl font-bold mb-2">
+          Movie App
+        </h1>
+
+        {/* Filter Component */}
+        <Filter
+          filterTitle={filterTitle}
+          setFilterTitle={setFilterTitle}
+          filterRating={filterRating}
+          setFilterRating={setFilterRating}
+        />
+
+        {/* Routes */}
+        <Routes>
+          <Route path="/" element={<MovieList movies={filteredMovies} />} />
+          <Route
+            path="/details/:id"
+            element={<MovieTrailer movies={movies} />}
+          />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
